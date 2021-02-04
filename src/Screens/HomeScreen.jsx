@@ -1,28 +1,23 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
-import FilmsList from '@Components/FilmsList';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {View, StyleSheet} from 'react-native';
+
+import IntroApp from './IntroApp';
 import Search from '@Components/Search';
-import { api } from '../api';
+import FilmsList from '@Components/FilmsList';
+import { getfilmsName } from '@Redux/actions/films';
 
-const HomeScreen = ({navigation}) => {
-	const [films, setFilms] = useState([])
+const HomeScreen = () => {
+	const dispatch = useDispatch();
+	const { startApp } = useSelector(state => state.films);
+
 	useEffect(() => {
-		getFilmsName()
+		dispatch(getfilmsName([]));
 	}, [])
-
-	const getFilmsName = async () => {
-		const {Search, Response, errors} = await api.getFilmsName();
-		// console.log('RESPUESTA =>', !res.erros)
-		if (!errors || Response === 'True') {
-			setFilms(Search)
-		} else {
-			console.log('error en la peticion')
-		}
-	}
 
 	return <View style={styles.container}>
 		<Search />
-		<FilmsList films={films}/>
+		{ startApp ? <IntroApp /> : <FilmsList /> } 
 	</View>
 };
 

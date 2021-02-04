@@ -1,9 +1,40 @@
+import _ from "lodash";
 import React from 'react';
-import {View, TextInput, StyleSheet} from 'react-native';
+import { useDispatch } from 'react-redux';
 import { AntDesign } from "@expo/vector-icons";
+import {View, TextInput, StyleSheet} from 'react-native';
+
+import { getfilmsName } from '@Redux/actions/films';
+
+let __debouncing = null;
 
 const Search = () => {
-  const [value, onChangeText] = React.useState('');
+  const dispatch = useDispatch();
+  
+  const _searchFilms = async (text) => {
+    dispatch(getfilmsName(text));
+  };
+  
+  
+  const searchFilms = text => {
+    
+    !!__debouncing && __debouncing.cancel();
+
+    if (!text) {
+      return (
+        dispatch(getfilmsName([]))
+      )
+    }
+
+    __debouncing = _.debounce(() => {
+      return (
+        _searchFilms(text)
+      );
+    }, 500);
+
+    return __debouncing();
+  };
+
 
   return <View style={styles.container}>
     <View style={styles.containerInput}>
@@ -11,14 +42,13 @@ const Search = () => {
           <AntDesign size={20} name="search1" style={{ color: "#FFF" }} />
       </View>
       <TextInput
-        value={value}
         editable
         autoFocus
         selectTextOnFocus
         style={styles.input}
         autoCapitalize="none"
         placeholder='Search...'
-        onChangeText={text => onChangeText(text)}
+        onChangeText={text => searchFilms(text)}
       />
     </View>
   </View>
@@ -42,9 +72,9 @@ const styles = StyleSheet.create({
   containerIconSearch: {
     padding: 5,
     alignItems: "center",
+    borderRadius: 40 / 2,
     justifyContent: "center",
     backgroundColor: "#abc2e8",
-    borderRadius: 40 / 2,
   },
   input: {
     width: "90%",
