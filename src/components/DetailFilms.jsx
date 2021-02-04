@@ -4,7 +4,7 @@ import DetailIntro from '@Components/DetailIntro';
 
 const { width } = Dimensions.get('window')
 
-const DetailScreen = ({route}) => {
+const DetailFilms = ({route}) => {
 	const { Title, Poster, Type, Year } = route.params.item
 
 	return (
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default DetailScreen;
+export default DetailFilms;

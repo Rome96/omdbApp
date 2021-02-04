@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import DetailScreen from '@Components/DetailScreen';
+import DetailFilms from '@Components/DetailFilms';
 import HomeScreen from '@Screens/HomeScreen';
 
 const Stack = createStackNavigator();
@@ -16,7 +16,7 @@ const StackNavigation = () => {
       />
       <Stack.Screen
         name="Detail"
-        component={DetailScreen}
+        component={DetailFilms}
         options={{ title: 'Detail Films' }}
       />
     </Stack.Navigator>
