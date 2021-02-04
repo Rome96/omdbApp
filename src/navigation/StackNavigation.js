@@ -9,11 +9,15 @@ const Stack = createStackNavigator();
 const StackNavigation = () => {
   return <NavigationContainer>
     <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomeScreen}/>
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ title: 'Films' }}
+      />
       <Stack.Screen
         name="Detail"
         component={DetailScreen}
-        // options={{ title: 'My home' }}
+        options={{ title: 'Detail Films' }}
       />
     </Stack.Navigator>
   </NavigationContainer>
