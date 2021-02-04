@@ -1,15 +1,17 @@
 import _ from "lodash";
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, {useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { AntDesign } from "@expo/vector-icons";
 import {View, TextInput, StyleSheet} from 'react-native';
 
-import { getfilmsName } from '@Redux/actions/films';
+import { getfilmsName, searchFilmsText, pageFilms, addFilms } from '@Redux/actions/films';
 
 let __debouncing = null;
 
 const Search = () => {
+  const { page } = useSelector(state => state.films);
   const dispatch = useDispatch();
+
   
   const _searchFilms = async (text) => {
     dispatch(getfilmsName(text));
@@ -22,13 +24,17 @@ const Search = () => {
 
     if (!text) {
       return (
-        dispatch(getfilmsName([]))
+        dispatch(addFilms([])),
+        dispatch(getfilmsName([])),
+        dispatch(pageFilms(1)),
+        dispatch(searchFilmsText(''))
       )
     }
 
     __debouncing = _.debounce(() => {
       return (
-        _searchFilms(text)
+       _searchFilms(text),
+        dispatch(searchFilmsText(text))
       );
     }, 500);
 

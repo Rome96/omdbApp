@@ -1,19 +1,46 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
-import { View, FlatList } from 'react-native';
+import _ from "lodash";
+import React, {useState} from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { View, FlatList, ActivityIndicator } from 'react-native';
 
 import RenderFilm from './RenderFilm';
 import NotFound from '@Screens/NotFound';
+import { getfilmsName, searchFilmsText, pageFilms } from '@Redux/actions/films';
 
 const FilmsList = () => {
-  const { getFilms, notFound} = useSelector(state => state.films);
+  const { getFilms, notFound, searchFilms, page, loading} = useSelector(state => state.films);
+  const dispatch = useDispatch();
+  const [pagec, setPage] = useState(1)
+
+  const _onEndReached = () => {
+      setPage(c => c + 1)
+      dispatch(pageFilms(pagec));
+      dispatch(searchFilmsText(searchFilms))
+      // dispatch(getfilmsName(searchFilms));
+  };
 
   return (
     <View>
       <FlatList
         data={getFilms}
+        extraData={getFilms}
+        // onEndReached={_onEndReached}
+        onEndReachedThreshold={0}
         renderItem={({item}) => <RenderFilm {...item} />}
         keyExtractor={item => item.imdbID}
+        ListFooterComponent={
+          !!loading && (
+            <View
+              style={{
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <ActivityIndicator size="large" color="2eb872" />
+            </View>
+          )
+        }
         />
         { notFound && <NotFound /> }
     </View>

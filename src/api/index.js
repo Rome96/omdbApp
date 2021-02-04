@@ -1,12 +1,9 @@
 import { URL, HTTP_STATUSES } from "./constants";
 
 export const api = {
-  async getFilmsName(name) {
-    if (!name) {
-      name = 'simpson'
-    }
+  async getFilmsName(name, page) {
     try {
-      const res = await fetch(`${URL}=${name}`);
+      const res = await fetch(`${URL}=${name}&page=$${page}`);
       const response = await res.json();
       if (res.status === HTTP_STATUSES.OK) {
         return response

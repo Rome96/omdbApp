@@ -10,32 +10,51 @@ const startApp = payload => {
 
 const introApp = payload => {
   return {
-    type: types.INITIAL_APP,
+    type: types.INTRO_APP,
     payload
   };
 };
 
+const loading = payload => {
+  return {
+    type: types.LOADING,
+    payload
+  }
+};
+
 const getfilmsName = (name) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const { page } = getState().films
     try {
-      const res = await api.getFilmsName(name);
+      dispatch(loading(true))
+      const res = await api.getFilmsName(name, page);
       if (!!res.Error) {
         dispatch(addFilms([]));
         dispatch(notFound(true));
         dispatch(startApp(false));
+        dispatch(loading(false))
       } else if (!!res.Search) {
         dispatch(addFilms(res.Search));
         dispatch(notFound(false));
         dispatch(startApp(false));
+        dispatch(loading(false))
       } else {
         dispatch(addFilms([]));
         dispatch(introApp(res));
         dispatch(startApp(true));
         dispatch(notFound(false));
+        dispatch(loading(false))
       }
     } catch (error) {
       console.log(error);
     };
+  };
+};
+
+const searchFilmsText = payload => {
+  return {
+    type: types.SEARCH_FILMS,
+    payload
   };
 };
 
@@ -53,6 +72,17 @@ const addFilms = payload => {
   };
 };
 
+const pageFilms = payload => {
+  return {
+    type: types.PAGE_FILMS,
+    payload
+  }
+}
+
 export {
   getfilmsName,
+  loading,
+  searchFilmsText,
+  pageFilms,
+  addFilms,
 };
