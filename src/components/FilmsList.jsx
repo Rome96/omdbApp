@@ -8,15 +8,15 @@ import NotFound from '@Screens/NotFound';
 import { getfilmsName, searchFilmsText, pageFilms } from '@Redux/actions/films';
 
 const FilmsList = () => {
-  const { getFilms, notFound, searchFilms, page, loading} = useSelector(state => state.films);
+  const { getFilms, notFound, searchFilms, loading} = useSelector(state => state.films);
   const dispatch = useDispatch();
   const [pagec, setPage] = useState(1)
 
+  // console.log('searchFilms =>', getFilms)
+
   const _onEndReached = () => {
-      setPage(c => c + 1)
-      dispatch(pageFilms(pagec));
-      dispatch(searchFilmsText(searchFilms))
-      // dispatch(getfilmsName(searchFilms));
+    setPage(c => c + 1)
+    dispatch(getfilmsName(searchFilms, pagec))
   };
 
   return (
@@ -27,7 +27,7 @@ const FilmsList = () => {
         // onEndReached={_onEndReached}
         onEndReachedThreshold={0}
         renderItem={({item}) => <RenderFilm {...item} />}
-        keyExtractor={item => item.imdbID}
+        keyExtractor={(item) => item.imdbID}
         ListFooterComponent={
           !!loading && (
             <View

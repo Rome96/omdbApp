@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
 
 import IntroApp from './IntroApp';
 import Search from '@Components/Search';
@@ -9,7 +9,10 @@ import { getfilmsName } from '@Redux/actions/films';
 
 const HomeScreen = () => {
 	const dispatch = useDispatch();
-	const { startApp } = useSelector(state => state.films);
+	const { startApp, getFilms } = useSelector(state => state.films);
+
+	// console.log('PAGE STATE => ', page)
+	console.log('FILMS STRORE =>', getFilms.length)
 
 	useEffect(() => {
 		dispatch(getfilmsName([]));
@@ -25,6 +28,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingHorizontal: 10,
+		paddingBottom: 10
 	}
 })
 

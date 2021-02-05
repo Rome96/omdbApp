@@ -22,9 +22,9 @@ const loading = payload => {
   }
 };
 
-const getfilmsName = (name) => {
-  return async (dispatch, getState) => {
-    const { page } = getState().films
+const getfilmsName = (name, page) => {
+  console.log('PAGE ACTION =>', page)
+  return async (dispatch) => {
     try {
       dispatch(loading(true))
       const res = await api.getFilmsName(name, page);

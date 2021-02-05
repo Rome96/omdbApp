@@ -36,6 +36,8 @@ export const filmsReducer = (state = initialState, action) => {
     case types.GET_FILMS:
       return {
         ...state,
+        // getFilms: state.getFilms.concat(action.payload)
+        // getFilms: [...state.getFilms, ...action.payload]
         getFilms: [...action.payload]
       }
     case types.PAGE_FILMS:

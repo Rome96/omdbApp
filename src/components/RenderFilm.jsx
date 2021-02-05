@@ -60,8 +60,8 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 10
   },
   containerTitle: {
-    flex: 6,
-    paddingVertical: 20,
+    flex: 4,
+    paddingVertical: 30,
     justifyContent: 'center',
     paddingHorizontal: 10
   }

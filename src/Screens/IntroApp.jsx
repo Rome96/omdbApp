@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useSelector } from 'react-redux';
-import { View, Text, StyleSheet, Image, Dimensions, ScrollView } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, ScrollView } from 'react-native';
 import DetailIntro from '@Components/DetailIntro';
 
 const { width } = Dimensions.get('window')
@@ -14,7 +14,7 @@ const IntroApp = () => {
     Director,
     Released,
     Production
-  } = useSelector(state => state.films.introApp)
+  } = useSelector(state => state.films.introApp);
   
   return (
     <View style={styles.container}>

@@ -4,29 +4,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AntDesign } from "@expo/vector-icons";
 import {View, TextInput, StyleSheet} from 'react-native';
 
-import { getfilmsName, searchFilmsText, pageFilms, addFilms } from '@Redux/actions/films';
+import { getfilmsName, searchFilmsText, addFilms } from '@Redux/actions/films';
 
 let __debouncing = null;
 
 const Search = () => {
-  const { page } = useSelector(state => state.films);
+  const { searchFilms } = useSelector(state => state.films);
   const dispatch = useDispatch();
-
   
-  const _searchFilms = async (text) => {
+  const _searchFilms = async text => {
     dispatch(getfilmsName(text));
   };
   
-  
-  const searchFilms = text => {
-    
+  const handleSearchFilms = text => {
+
     !!__debouncing && __debouncing.cancel();
 
     if (!text) {
       return (
         dispatch(addFilms([])),
         dispatch(getfilmsName([])),
-        dispatch(pageFilms(1)),
         dispatch(searchFilmsText(''))
       )
     }
@@ -41,7 +38,6 @@ const Search = () => {
     return __debouncing();
   };
 
-
   return <View style={styles.container}>
     <View style={styles.containerInput}>
       <View style={styles.containerIconSearch}>
@@ -54,7 +50,7 @@ const Search = () => {
         style={styles.input}
         autoCapitalize="none"
         placeholder='Search...'
-        onChangeText={text => searchFilms(text)}
+        onChangeText={text => handleSearchFilms(text)}
       />
     </View>
   </View>
